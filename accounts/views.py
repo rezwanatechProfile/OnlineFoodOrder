@@ -1,16 +1,40 @@
 from django.shortcuts import redirect, render
+from .utils import detectUser
 from vendor.forms import VendorForm
 from .forms import UserForm
 from .models import User
 from .signals import UserProfile
 from django.contrib import messages, auth
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.exceptions import PermissionDenied
 
-# Create your views here.
+
+
+#Restrict the vendor from accessing the customer page
+def check_role_vendor(user):
+    if user.role == 1:
+        return True
+    else:
+        raise PermissionDenied
+
+
+
+#Restrict the customer from accessing the vendor page
+
+def check_role_customer(user):
+    if user.role == 2:
+        return True
+    else:
+        raise PermissionDenied
+
 
 
 def registerUser(request):
-    if request.method == 'POST':
+    if request.user.is_authenticated:
+        messages.warning(request, 'You are already logged in')
+        return redirect('custDashboard')
+    elif request.method == 'POST':
         print(request.POST)
         form = UserForm(request.POST)
         if form.is_valid():
@@ -44,10 +68,13 @@ def registerUser(request):
       }
     return render(request, 'accounts/registerUser.html', context)
 
-
+# register Vendor function
 def registerVendor(request):
+    if request.user.is_authenticated:
+        messages.warning(request, 'You are already logged in')
+        return redirect('vendorDashboard')  
 
-    if request.method == 'POST':
+    elif request.method == 'POST':
         # store the data and create the user
         form = UserForm(request.POST)
         v_form = VendorForm(request.POST, request.FILES)
@@ -96,30 +123,55 @@ def registerVendor(request):
     return render(request, 'accounts/registerVendor.html', context)
 
 
-
+# login path
 def login(request):
-    if request.method == 'POST':
+    if request.user.is_authenticated:
+        messages.warning(request, 'You are already logged in')
+        return redirect('myAccount')
+    elif request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
+        # authenticating the user
         user = auth.authenticate(email=email, password=password)
         if user is not None:
             auth.login(request, user)
             messages.success(request, 'You are now logged in.')
-            return redirect('dashboard')
+            return redirect('myAccount')
         else:
             messages.error(request, 'Invalid loging credentials')
             return redirect('login')
-
-
     return render(request, 'accounts/login.html')
 
-
+# logout path
 def logout(request):
     auth.logout(request)
     messages.info(request, "You are logged out")
     return redirect('login')
 
-def dashboard(request):
-    return render(request, 'accounts/dashboard.html')
+# myAccount should run only when the user is logged in. for that we need to use login decorator. 
+# If the user is not logged in it will senf the user to the logged in page.
+@login_required(login_url='login')
+def myAccount(request):
+    user = request.user
+    redirectUrl = detectUser(user)
+    return redirect(redirectUrl)
+# go to the utils.py to create helper function
+
+
+# custDashboard should run only when the user is logged in. for that we need to use login decorator. 
+# If the user is not logged in it will senf the user to the logged in page.
+@login_required(login_url='login')
+@user_passes_test(check_role_customer)
+def custDashboard(request):
+    return render(request, 'accounts/custDashboard.html')
+
+
+
+# vendorDashboard should run only when the user is logged in. for that we need to use login decorator. 
+# If the user is not logged in it will senf the user to the logged in page.
+@login_required(login_url='login')
+@user_passes_test(check_role_vendor)
+def vendorDashboard(request):
+    return render(request, 'accounts/vendorDashboard.html')
 
 
