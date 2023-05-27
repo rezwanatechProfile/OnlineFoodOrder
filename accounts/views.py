@@ -1,8 +1,10 @@
 from django.shortcuts import redirect, render
 from vendor.forms import VendorForm
 from .forms import UserForm
-from .models import User, UserProfile
+from .models import User
+from .signals import UserProfile
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
 
@@ -49,7 +51,7 @@ def registerVendor(request):
         # store the data and create the user
         form = UserForm(request.POST)
         v_form = VendorForm(request.POST, request.FILES)
-        if form.is_valid() and v_form.is_valid:
+        if form.is_valid() and v_form.is_valid():
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             username = form.cleaned_data['username']
@@ -58,13 +60,19 @@ def registerVendor(request):
             user = User.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email, password=password)
             user.role = User.VENDOR
             user.save()
+            print(user)
             vendor = v_form.save(commit=False)
             vendor.user = user
             # vendor_name = v_form.cleaned_data['vendor_name']
             # vendor.vendor_slug = slugify(vendor_name)+'-'+str(user.id)
-            user_profile = UserProfile.objects.get(user=user)
-            vendor.user_profile = user_profile
-            vendor.save()
+            try:
+                userprofile = UserProfile.objects.get(user=user)
+                vendor.userprofile = userprofile
+                vendor.save()
+            except:
+                UserProfile.DoesNotExist
+                print("no matching userprofile")
+
 
             # Send verification email
             mail_subject = 'Please activate your account'
