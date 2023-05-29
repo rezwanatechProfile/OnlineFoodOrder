@@ -36,7 +36,7 @@ class UserManager(BaseUserManager):
 
         # make him a superuser
         user.is_admin = True
-        user.is_active = True
+        # user.is_active = True
         user.is_staff = True
         user.is_superadmin = True
         user.save(using=self._db)
@@ -68,7 +68,7 @@ class User(AbstractBaseUser):
     modified_date = models.DateTimeField(auto_now=True)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
+    # is_active = models.BooleanField(default=False)
     is_superadmin = models.BooleanField(default=False)
 
     # AbstractBaseUser has the ability to set the user name field because by default to set the username field. Django by default uses the username
@@ -91,7 +91,7 @@ class User(AbstractBaseUser):
         if self.role == 1:
             user_role = 'Vendor'
         elif self.role == 2:
-            self.role = 'Customer'
+            user_role = 'Customer'
         return user_role
     
 

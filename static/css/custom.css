@@ -1,0 +1,9 @@
+.main-section .home-section {
+  background: url('../extra-images/bg-image1.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  padding-bottom: 150px;
+  padding-top: 200px;
+  margin-bottom: 0px;
+} 
