@@ -73,7 +73,7 @@ class User(AbstractBaseUser):
 
     # AbstractBaseUser has the ability to set the user name field because by default to set the username field. Django by default uses the username
     # as login field. 
-    #  username itself is a required field
+    # username itself is a required field
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
     
@@ -96,17 +96,17 @@ class User(AbstractBaseUser):
     
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
-    profile_picture = models.ImageField(upload_to='users/profile_pictures', blank=True, null=True)
-    cover_photo = models.ImageField(upload_to='users/cover_photos', blank=True, null=True)
-    address = models.CharField(max_length=100, blank=True, null=True)
-    country = models.CharField(max_length=15, blank=True, null=True)
-    state = models.CharField(max_length=15, blank=True, null=True)
-    city = models.CharField(max_length=15, blank=True, null=True)
-    zip_code =models.CharField(max_length=6, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now=True)
+  user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
+  profile_picture = models.ImageField(upload_to='users/profile_pictures', blank=True, null=True)
+  cover_photo = models.ImageField(upload_to='users/cover_photos', blank=True, null=True)
+  address = models.CharField(max_length=100, blank=True, null=True)
+  country = models.CharField(max_length=15, blank=True, null=True)
+  state = models.CharField(max_length=15, blank=True, null=True)
+  city = models.CharField(max_length=15, blank=True, null=True)
+  zip_code =models.CharField(max_length=6, blank=True, null=True)
+  created_at = models.DateTimeField(auto_now_add=True)
+  modified_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.user.email
+  def __str__(self):
+      return self.user.email
     

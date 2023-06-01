@@ -9,7 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.exceptions import PermissionDenied
 from django.utils.http import urlsafe_base64_decode
-from django.contrib.auth.tokens import default_token_generator
+# from django.contrib.auth.tokens import default_token_generator
 from vendor.models import Vendor
 
 
@@ -74,7 +74,7 @@ def registerUser(request):
       }
     return render(request, 'accounts/registerUser.html', context)
 
-# register Vendor function
+# REGISTER VENDOR FUNCTION
 def registerVendor(request):
     if request.user.is_authenticated:
         messages.warning(request, 'You are already logged in')
@@ -94,6 +94,7 @@ def registerVendor(request):
             user.role = User.VENDOR
             user.save()
             print(user)
+
             vendor = v_form.save(commit=False)
             vendor.user = user
             # vendor_name = v_form.cleaned_data['vendor_name']
@@ -193,7 +194,6 @@ def myAccount(request):
 @user_passes_test(check_role_customer)
 def custDashboard(request):
     return render(request, 'accounts/custDashboard.html')
-
 
 
 # vendorDashboard should run only when the user is logged in. for that we need to use login decorator. 

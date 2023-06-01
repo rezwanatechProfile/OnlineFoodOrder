@@ -20,6 +20,7 @@ def post_save_create_profile_receiver(sender, instance, created, **kwargs):
         except:
             # Create the userprofile if not exist
             UserProfile.objects.create(user=instance)
+            print('Only created user profile')
 
 
 @receiver(pre_save, sender=User)
