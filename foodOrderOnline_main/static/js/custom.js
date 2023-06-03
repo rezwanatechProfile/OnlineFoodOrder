@@ -33,11 +33,11 @@ function onPlaceChanged (){
       console.log('status=>', status)
 
       if(status == google.maps.GeocoderStatus.OK){
-        let latitude = results[0].geometry.location.lat();
-        let longitude = results[0].geometry.location.lng();
+        // let latitude = results[0].geometry.location.lat();
+        // let longitude = results[0].geometry.location.lng();
 
-        console.log(latitude);
-        console.log(longitude);
+        // console.log(latitude);
+        // console.log(longitude);
 
         $('#id_address').val(address);
 
@@ -45,7 +45,7 @@ function onPlaceChanged (){
     });
 
   
-
+// my custom code
     //Loop through the address components and assign other address data
 
     for(let i=0; i<place.address_components.length; i++){
