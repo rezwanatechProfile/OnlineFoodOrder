@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from accounts.models import UserProfile
-from menu.forms import CategoryForm
+from menu.forms import CategoryForm, FoodItemForm
 from vendor.models import Vendor
 
 from .forms import VendorForm
@@ -20,6 +20,7 @@ def get_vendor(request):
      return vendor
 
 
+# Vendor profile / Dashboard function
 
 @login_required(login_url='login')
 @user_passes_test(check_role_vendor)
@@ -53,7 +54,8 @@ def v_profile(request):
     return render(request, 'vendor/v_profile.html', context)
 
 
-# function to build the menu
+
+# function to build the menu (Category and food items)
 @login_required(login_url='login')
 @user_passes_test(check_role_vendor)
 def menu_builder(request):
@@ -83,6 +85,8 @@ def fooditems_by_category(request, pk=None):
     
 
 
+# CRUD Application of Category
+
 @login_required(login_url='login')
 @user_passes_test(check_role_vendor)
 def add_category(request):
@@ -96,7 +100,7 @@ def add_category(request):
             # slugify will generate the slug based on category name
             category.slug = slugify(category_name)
             form.save()
-            messages.success(request, "category added successfully")
+            messages.success(request, "Category added successfully")
             return redirect('menu_builder')
         else:
             print(form.errors)
@@ -148,3 +152,65 @@ def delete_category(request, pk=None):
     return redirect('menu_builder')
     
     
+
+# CRUD Application of Food Items
+
+def add_food(request):
+     if request.method == 'POST':
+        form = FoodItemForm(request.POST, request.FILES)
+        if form.is_valid():
+            foodtitle = form.cleaned_data['food_title']
+            food = form.save(commit=False)
+            # now add the vendor part in the form
+            food.vendor = get_vendor(request)
+            # slugify will generate the slug based on category name
+            food.slug = slugify(foodtitle)
+            form.save()
+            messages.success(request, "Food Item added successfully")
+            return redirect('fooditems_by_category', food.category.id)
+        else:
+            print(form.errors)
+        
+     else:
+        form = FoodItemForm()
+     context = {
+        'form': form,
+        }
+     return render(request, 'vendor/add_food.html', context)
+
+
+# edit FoodItem functions
+@login_required(login_url='login')
+@user_passes_test(check_role_vendor)
+def edit_food(request, pk=None):
+    # create category instance and should be pass inside the form. Instance create the existing data in the form.
+     foodItem = get_object_or_404(FoodItem, pk=pk)
+     if request.method == 'POST':
+        form = FoodItemForm(request.POST, request.FILES, instance=foodItem)
+        if form.is_valid():
+            foodtitle = form.cleaned_data['food_title']
+            foodItem = form.save(commit=False)
+            # now add the vendor part in the form
+            foodItem.vendor = get_vendor(request)
+            # slugify will generate the slug based on category name
+            foodItem.slug = slugify(foodtitle)
+            form.save()
+            messages.success(request, "Food Item Updated Successfully")
+            return redirect('fooditems_by_category', foodItem.category.id)
+        else:
+            print(form.errors)
+        
+     else:
+        form = FoodItemForm(instance=foodItem)
+     context = {
+        'form': form,
+        'foodItem': foodItem,
+        }
+     return render(request, 'vendor/edit_food.html', context)
+
+
+def delete_food(request, pk=None):
+    food = get_object_or_404(FoodItem, pk=pk)
+    food.delete()
+    messages.success(request, "Food Item has been deleted Successfully")
+    return redirect('menu_builder')
