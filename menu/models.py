@@ -7,7 +7,7 @@ from vendor.models import Vendor
 class Category(models.Model):
     # if vendor gets deleted then this Category should be deleted. 
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
-    category_name = models.CharField(max_length=50)
+    category_name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
     # URL of the particular category. foe example: sea food ---> sea-food
     description = models.TextField(max_length=250, blank=True)
@@ -17,6 +17,9 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'category'
         verbose_name_plural = 'categories'
+
+    def clean(self):
+        self.category_name = self.category_name.capitalize()
 
     def __str__(self):
         return self.category_name

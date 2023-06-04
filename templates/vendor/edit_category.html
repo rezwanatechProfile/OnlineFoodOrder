@@ -20,11 +20,11 @@
             <div class="user-holder">
               <!-- <h5 class="text-uppercase">Add New Category</h5> -->
               
-              <h6>Add New Categories</h6>
+              <h6>Update Category</h6>
               <hr>
               
               <!-- Render form -->
-              <form action="{% url 'add_category' %}" method="POST">
+              <form action="{% url 'edit_category' category.id %}" method="POST">
                 {% csrf_token %}
                 <div class="form-fields-set">
                   <div class="row">
@@ -52,7 +52,7 @@
                     {% endif %}
                 {% endfor %}
 
-                <button type="submit" class="btn btn-info">Create</button>
+                <button type="submit" class="btn btn-info">Update</button>
               </form>
             </div>
           </div>
