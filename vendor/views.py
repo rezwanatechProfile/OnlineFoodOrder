@@ -173,6 +173,8 @@ def add_food(request):
         
      else:
         form = FoodItemForm()
+        # to get the each owner's categories in category filter
+        form.fields['category'].queryset = Category.objects.filter(vendor=get_vendor(request))
      context = {
         'form': form,
         }
