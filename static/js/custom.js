@@ -84,7 +84,6 @@ $(document).ready(function(){
   $('.add_to_cart').on('click', function(e){
       e.preventDefault()
       alert('Test123456')
-      console.log("Hello cart")
       
       // food_id = $(this).attr('data-id');
       // url = $(this).attr('data-url');

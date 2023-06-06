@@ -38,9 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'accounts',
     'vendor',
     'menu',
+    'marketplace',
 ]
 
 MIDDLEWARE = [
@@ -134,7 +136,7 @@ STATICFILES_DIRS = [
 ]
 
 # Media files configuration
-MEDIA_URL = '/mdeia/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR /'media'
 
 
