@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.gis.db import models as gismodels
+from django.contrib.gis.geos import Point
+
 
 
 # Create your models here.
@@ -104,9 +107,22 @@ class UserProfile(models.Model):
   state = models.CharField(max_length=15, blank=True, null=True)
   city = models.CharField(max_length=15, blank=True, null=True)
   zip_code =models.CharField(max_length=6, blank=True, null=True)
+  latitude = models.CharField(max_length=20, blank=True, null=True)
+  longitude = models.CharField(max_length=20, blank=True, null=True)
+  location = gismodels.PointField(blank=True, null=True, srid=4326)
   created_at = models.DateTimeField(auto_now_add=True)
   modified_at = models.DateTimeField(auto_now=True)
 
   def __str__(self):
       return self.user.email
+  
+# for location based search
+  def save(self, *args, **kwargs):
+        # if latitude and longitude of user is available
+        if self.latitude and self.longitude:
+            # whenever you created point first parameter should be longitue. make the type float
+            self.location = Point(float(self.longitude), float(self.latitude))
+            # save it with super method
+            return super(UserProfile, self).save(*args, **kwargs)
+        return super(UserProfile, self).save(*args, **kwargs)
     

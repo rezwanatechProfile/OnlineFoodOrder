@@ -98,8 +98,11 @@ def add_category(request):
             # now add the vendor part in the form
             category.vendor = get_vendor(request)
             # slugify will generate the slug based on category name
-            category.slug = slugify(category_name)
-            form.save()
+            # category.save() will generate the id
+            category.save() 
+            category.slug = slugify(category_name)+'-'+str(category.id)
+            category.save()
+
             messages.success(request, "Category added successfully")
             return redirect('menu_builder')
         else:

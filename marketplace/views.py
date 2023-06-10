@@ -1,11 +1,22 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
+
 from marketplace.context_processors import get_cart_amounts, get_cart_counter
 from menu.models import Category, FoodItem
 from vendor.models import Vendor
 from django.db.models import Prefetch
 from .models import Cart
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+
+from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.gis.measure import D # ``D`` is a shortcut for ``Distance``
+from django.contrib.gis.db.models.functions import Distance
+
+from vendor.serailizers import VendorSerializer, UserProfileSerializer
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 # Create your views here.
 
@@ -19,11 +30,40 @@ def marketplace(request):
     return render(request, 'marketplace/listings.html', context)
 
 
+# @api_view(['GET'])
+# def vendor(request, pk):
+#     vendor = Vendor.objects.get(id=pk)
+#     serializer = VendorSerializer(vendor)
+#     return Response(serializer.data)
 
 
+
+# def vendor_detail(request, vendor_slug):
+#     vendor = get_object_or_404(Vendor, vendor_slug=vendor_slug)
+# # prefetch_related look for the data in reverse. we are accessing the food items in category model using related name.
+#     categories = Category.objects.filter(vendor=vendor).prefetch_related(
+#         Prefetch(
+#             'fooditems',
+#             queryset = FoodItem.objects.filter(is_available=True)
+#         )
+#     )
+#     # to get the acces in cart items
+#     if request.user.is_authenticated:
+#         cart_items = Cart.objects.filter(user=request.user)
+#     else:
+#         cart_items = None
+
+#     context = {
+#         'vendor': vendor,
+#         'categories': categories,
+#         'cart_items': cart_items,
+#     }
+#     return render(request, 'marketplace/vendor_detail.html', context)
+
+
+@api_view(['GET'])
 def vendor_detail(request, vendor_slug):
     vendor = get_object_or_404(Vendor, vendor_slug=vendor_slug)
-# prefetch_related look for the data in reverse. we are accessing the food items in category model using related name.
     categories = Category.objects.filter(vendor=vendor).prefetch_related(
         Prefetch(
             'fooditems',
@@ -31,27 +71,31 @@ def vendor_detail(request, vendor_slug):
         )
     )
 
-    # opening_hours = OpeningHour.objects.filter(vendor=vendor).order_by('day', 'from_hour')
-    
-    # # Check current day's opening hours.
-    # today_date = date.today()
-    # today = today_date.isoweekday()
-    
-    # current_opening_hours = OpeningHour.objects.filter(vendor=vendor, day=today)
-
-    # to get the acces in cart items
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user)
     else:
         cart_items = None
-    context = {
-        'vendor': vendor,
-        'categories': categories,
-        'cart_items': cart_items,
-        # 'opening_hours': opening_hours,
-        # 'current_opening_hours': current_opening_hours,
-    }
-    return render(request, 'marketplace/vendor_detail.html', context)
+
+    # Serialize the categories and add them to the serialized data
+   
+    
+
+    vendor_serializer = VendorSerializer(vendor)
+    # userprofile_serializer = UserProfileSerializer(vendor.userprofile)
+
+    # data = {
+    #     'vendor': vendor_serializer.data,
+    #     'userprofile': userprofile_serializer.data
+    # }
+    
+
+    # Add the cart_items to the serialized data
+    # serialized_data['cart_items'] = CartItemSerializer(cart_items, many=True).data
+
+    return Response(vendor_serializer.data)
+
+
+
 
 
 def add_to_cart(request, food_id):
@@ -133,3 +177,32 @@ def delete_cart(request, cart_id):
                 return JsonResponse({'status': 'Failed', 'message': 'Cart Item does not exist!'})
         else:
             return JsonResponse({'status': 'Failed', 'message': 'Invalid request!'})
+        
+
+
+def search(request):
+
+    address = request.GET['address']
+    latitude = request.GET['lat']
+    longitude = request.GET['lng']
+    radius = request.GET['radius']
+    keyword = request.GET['keyword']
+
+    # get vendor ids that has the food item the user is looking for. (need the vendor id)
+    fetch_vendors_by_fooditems = FoodItem.objects.filter(food_title__icontains=keyword, is_available=True).values_list('vendor', flat=True)
+# search for the vendor with their name OR food item name
+    vendors = Vendor.objects.filter(Q(id__in=fetch_vendors_by_fooditems) | Q(vendor_name__icontains=keyword, is_approved=True, user__is_active=True))
+    if latitude and longitude and radius:
+      pnt = GEOSGeometry('POINT(%s %s)' % (longitude, latitude))
+
+      vendors = Vendor.objects.filter(Q(id__in=fetch_vendors_by_fooditems) | Q(vendor_name__icontains=keyword, is_approved=True, user__is_active=True), userprofile__location__distance_lte=(pnt, D(km=radius))).annotate(distance=Distance("userprofile__location", pnt)).order_by("distance")
+
+    vendor_count = vendors.count()
+
+    context= {
+        'vendors': vendors,
+        'vendor_count': vendor_count,
+    }
+    
+
+    return render(request, 'marketplace/listings.html', context)

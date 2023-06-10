@@ -1,3 +1,4 @@
+import json
 from django import forms
 from .models import User, UserProfile
 
@@ -23,12 +24,13 @@ class UserForm(forms.ModelForm):
                 "Password does not match!"
             )
         
+  
 
 class UserProfileForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        fields = ['profile_picture', 'cover_photo', 'address', 'country', 'state', 'city', 'zip_code',]
+        fields = ['profile_picture', 'cover_photo', 'address', 'country', 'state', 'city', 'zip_code','latitude', 'longitude']
 
     # def __init__(self, *args, **kwargs):
     #     super(UserProfileForm, self).__init__(*args, **kwargs)

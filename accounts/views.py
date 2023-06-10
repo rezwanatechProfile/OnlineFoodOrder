@@ -1,4 +1,8 @@
+import json
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
+
+from .serailizers import UserSerializer
 from .utils import detectUser
 from vendor.forms import VendorForm
 from .forms import UserForm
@@ -12,6 +16,10 @@ from django.utils.http import urlsafe_base64_decode
 # from django.contrib.auth.tokens import default_token_generator
 from vendor.models import Vendor
 from django.template.defaultfilters import slugify
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
+from django.views.decorators.csrf import csrf_exempt
 
 
 #Restrict the vendor from accessing the customer page
@@ -47,7 +55,6 @@ def registerUser(request):
             # we have in the form it will assign to the user
             # user = form.save(commit=False)
             # user.set_password(password)
-
             # create the user using create_user method
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
@@ -74,6 +81,48 @@ def registerUser(request):
         'form': form,
       }
     return render(request, 'accounts/registerUser.html', context)
+
+# @csrf_exempt
+# def registerUser(request):
+#     if request.user.is_authenticated:
+#         messages.warning(request, 'You are already logged in')
+#         return redirect('custDashboard')
+#     elif request.method == 'POST':
+#         print(request.POST)
+#         form = UserForm(request.POST)
+#         if form.is_valid():
+#             first_name = form.cleaned_data['first_name']
+#             last_name = form.cleaned_data['last_name']
+#             username = form.cleaned_data['username']
+#             email = form.cleaned_data['email']
+#             password = form.cleaned_data['password']
+#             user = User.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email, password=password)
+
+#             serialized_data = form.serialize()
+#             print(serialized_data)
+
+#             deserialized_form = UserForm.deserialize(serialized_data)     
+#             user.role = User.CUSTOMER 
+#             user.save()
+#              # Send verification email
+#             mail_subject = 'Please activate your account'
+#             email_template = 'accounts/emails/account_verification_email.html'
+#             # send_verification_email(request, user)
+
+#             messages.success(request, 'Your account has been registered successfully')
+#             return redirect('registerUser')
+#         else:
+#             print('invalid form')
+#             print(form.errors)
+#     else:
+#         form=UserForm()
+#     # "context" refers to a dictionary-like object that contains data and variables that are accessible within a Django template.
+#     context = {
+#         'form': form,
+#       }
+#     return Response(deserialized_form)
+
+
 
 # REGISTER VENDOR FUNCTION
 def registerVendor(request):
@@ -154,8 +203,6 @@ def registerVendor(request):
 #         return redirect('myAccount')
 
 
-
-
 # login path
 def login(request):
     if request.user.is_authenticated:
@@ -175,11 +222,13 @@ def login(request):
             return redirect('login')
     return render(request, 'accounts/login.html')
 
+
 # logout path
 def logout(request):
     auth.logout(request)
     messages.info(request, "You are logged out")
     return redirect('login')
+
 
 # myAccount should run only when the user is logged in. for that we need to use login decorator. 
 # If the user is not logged in it will send the user to the log in page.

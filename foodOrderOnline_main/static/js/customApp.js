@@ -126,8 +126,10 @@ $(document).ready(function(){
                   response.cart_amount['grand_total']
               )
 
-              removeCartItem(0, cart_id);
-              checkEmptyCart();
+              if(window.location.pathname == '/cart/'){
+                removeCartItem(response.qty, cart_id)
+                checkEmptyCart();
+              }
           } 
       }
   })
