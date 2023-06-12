@@ -12,8 +12,9 @@ from django.db.models import Q
 from django.contrib.gis.geos import GEOSGeometry
 from django.contrib.gis.measure import D # ``D`` is a shortcut for ``Distance``
 from django.contrib.gis.db.models.functions import Distance
+from rest_framework.views import APIView
 
-from vendor.serailizers import VendorSerializer, UserProfileSerializer
+from vendor.serializers import VendorSerializer, UserProfileSerializer, CategorySerializer, FoodItemSerializer, CartSerializer
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -30,72 +31,55 @@ def marketplace(request):
     return render(request, 'marketplace/listings.html', context)
 
 
-# @api_view(['GET'])
-# def vendor(request, pk):
-#     vendor = Vendor.objects.get(id=pk)
-#     serializer = VendorSerializer(vendor)
-#     return Response(serializer.data)
-
-
-
-# def vendor_detail(request, vendor_slug):
-#     vendor = get_object_or_404(Vendor, vendor_slug=vendor_slug)
-# # prefetch_related look for the data in reverse. we are accessing the food items in category model using related name.
-#     categories = Category.objects.filter(vendor=vendor).prefetch_related(
-#         Prefetch(
-#             'fooditems',
-#             queryset = FoodItem.objects.filter(is_available=True)
-#         )
-#     )
-#     # to get the acces in cart items
-#     if request.user.is_authenticated:
-#         cart_items = Cart.objects.filter(user=request.user)
-#     else:
-#         cart_items = None
-
-#     context = {
-#         'vendor': vendor,
-#         'categories': categories,
-#         'cart_items': cart_items,
-#     }
-#     return render(request, 'marketplace/vendor_detail.html', context)
-
-
-@api_view(['GET'])
 def vendor_detail(request, vendor_slug):
     vendor = get_object_or_404(Vendor, vendor_slug=vendor_slug)
+# prefetch_related look for the data in reverse. we are accessing the food items in category model using related name.
     categories = Category.objects.filter(vendor=vendor).prefetch_related(
         Prefetch(
             'fooditems',
             queryset = FoodItem.objects.filter(is_available=True)
         )
     )
-
+    # to get the acces in cart items
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user)
     else:
         cart_items = None
 
-    # Serialize the categories and add them to the serialized data
-   
-    
-
-    vendor_serializer = VendorSerializer(vendor)
-    # userprofile_serializer = UserProfileSerializer(vendor.userprofile)
-
-    # data = {
-    #     'vendor': vendor_serializer.data,
-    #     'userprofile': userprofile_serializer.data
-    # }
-    
-
-    # Add the cart_items to the serialized data
-    # serialized_data['cart_items'] = CartItemSerializer(cart_items, many=True).data
-
-    return Response(vendor_serializer.data)
+    context = {
+        'vendor': vendor,
+        'categories': categories,
+        'cart_items': cart_items,
+    }
+    return render(request, 'marketplace/vendor_detail.html', context)
 
 
+# @api_view(['GET'])
+# def vendor_detail(request, vendor_slug):
+#     vendor = get_object_or_404(Vendor, vendor_slug=vendor_slug)
+#     categories = Category.objects.filter(vendor=vendor).prefetch_related(
+#         Prefetch(
+#             'fooditems',
+#             queryset = FoodItem.objects.filter(is_available=True)
+#         )
+#     )
+#     if request.user.is_authenticated:
+#         cart_items = Cart.objects.filter(user=request.user)
+#     else:
+#         cart_items = None
 
+#     # Serialize the vendor and categories objects
+#     vendor_serializer = VendorSerializer(vendor)  # Create an instance of the serializer
+#     categories_serializer = CategorySerializer(categories, many=True)
+#     cart_serializer = CartSerializer(cart_items, many=True)
+
+#     data = {
+#         'vendor': vendor_serializer.data,
+#         'categories': categories_serializer.data,
+#         'cart_items': cart_serializer.data
+#     }
+
+#     return Response(data)
 
 
 def add_to_cart(request, food_id):
@@ -121,7 +105,10 @@ def add_to_cart(request, food_id):
         
     else:
         return JsonResponse({'status': 'login_required', 'message': 'Please login to continue'})
-        
+
+
+
+
 
 def decrease_cart(request, food_id):
     if request.user.is_authenticated:

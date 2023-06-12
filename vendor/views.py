@@ -10,6 +10,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from accounts.views import check_role_vendor
 from menu.models import Category, FoodItem
 from django.template.defaultfilters import slugify
+# from rest_framework import generics, permissions
+# from . import serializers
 
 
 
@@ -154,9 +156,14 @@ def delete_category(request, pk=None):
     messages.success(request, "category has been deleted Successfully")
     return redirect('menu_builder')
     
-    
+   
 
 # CRUD Application of Food Items
+
+# class FoodList(generics.ListCreateAPIView):
+#     queryset = FoodItem.objects.all()
+#     serializer_class = serializers.FoodItemSerializer
+
 
 def add_food(request):
      if request.method == 'POST':

@@ -8,8 +8,6 @@ urlpatterns = [
 
     path('<slug:vendor_slug>/', views.vendor_detail, name='vendor_detail'),
 
-    # path('vendor/<str:pk>', views.vendor, name='vendor'),
-
 
     # ADD TO CART
     path('add_to_cart/<int:food_id>/', views.add_to_cart, name='add_to_cart'),

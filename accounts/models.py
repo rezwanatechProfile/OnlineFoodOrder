@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.contrib.gis.db import models as gismodels
 from django.contrib.gis.geos import Point
 
@@ -49,7 +49,7 @@ class UserManager(BaseUserManager):
 # create a superuser
 # AbstractBaseUser: by extending or inheriting this AbstractBaseUser we get full controll of editing custom user model. 
 # including the authetications functionality of Django.
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     VENDOR = 1
     CUSTOMER = 2
 

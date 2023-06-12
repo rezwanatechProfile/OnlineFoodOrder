@@ -1,6 +1,18 @@
 // custom javascript to add and delete item in the cart.
 
 $(document).ready(function(){
+
+  $(".toggle").on("click", function() {
+    console.log("clicking")
+    if ($(".nav-link").hasClass("active")) {
+        $(".nav-link").removeClass("active");
+    } else {
+        $(".nav-link").addClass("active");
+    }
+});
+
+
+
   // add to cart
   $('.add_to_cart').on('click', function(e){
       e.preventDefault()
@@ -174,6 +186,8 @@ $(document).ready(function(){
         // }
     }
 }
+
+
 
 
 });
