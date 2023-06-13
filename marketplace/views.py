@@ -1,8 +1,10 @@
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
+from accounts.models import UserProfile
 
 from marketplace.context_processors import get_cart_amounts, get_cart_counter
 from menu.models import Category, FoodItem
+from orders.forms import OrderForm
 from vendor.models import Vendor
 from django.db.models import Prefetch
 from .models import Cart
@@ -14,7 +16,7 @@ from django.contrib.gis.measure import D # ``D`` is a shortcut for ``Distance``
 from django.contrib.gis.db.models.functions import Distance
 from rest_framework.views import APIView
 
-from vendor.serializers import VendorSerializer, UserProfileSerializer, CategorySerializer, FoodItemSerializer, CartSerializer
+# from vendor.serializers import VendorSerializer, UserProfileSerializer, CategorySerializer, FoodItemSerializer, CartSerializer
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -193,3 +195,30 @@ def search(request):
     
 
     return render(request, 'marketplace/listings.html', context)
+
+
+@login_required(login_url='login')
+def checkout(request):
+    cart_items = Cart.objects.filter(user=request.user).order_by('created_at')
+    cart_count = cart_items.count()
+    if cart_count <= 0:
+        return redirect('marketplace')
+    
+    user_profile = UserProfile.objects.get(user=request.user)
+    default_values = {
+        'first_name': request.user.first_name,
+        'last_name': request.user.last_name,
+        'phone': request.user.phone_number,
+        'email': request.user.email,
+        'address': user_profile.address,
+        'country': user_profile.country,
+        'state': user_profile.state,
+        'city': user_profile.city,
+        'zip_code': user_profile.zip_code,
+    }
+    form = OrderForm(initial=default_values)
+    context = {
+        'form': form,
+        'cart_items': cart_items,
+    }
+    return render(request, 'marketplace/checkout.html', context)

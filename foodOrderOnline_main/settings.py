@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'accounts',
     'vendor',
     'menu',
+    'orders',
     'customers',
     'marketplace',
     'django.contrib.gis',
@@ -84,6 +85,7 @@ TEMPLATES = [
                 'accounts.context_processors.get_google_api',
                 'marketplace.context_processors.get_cart_counter',
                 'marketplace.context_processors.get_cart_amounts',
+                'accounts.context_processors.get_paypal_client_id',
             ],
         },
     },
@@ -172,4 +174,9 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'Yum Cart Food Marketplace <yumcart.foodordermarketplace@gmail.com>'
 
 
-GOOGLE_API_KEY = 'AIzaSyBA82dJ4WBxgChK7t27wMteG7tF_IMPrB8'
+GOOGLE_API_KEY = config('GOOGLE_API_KEY')
+
+
+PAYPAL_CLIENT_ID = config('PAYPAL_CLIENT_ID')
+
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'
