@@ -53,9 +53,14 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # Concatenate first name and last name
+
+    def order_placed_to(self):
+        return ", ".join([str(i) for i in self.vendors.all()])
+
     def __str__(self):
         return self.order_number
+    
+
     
 
 class OrderedFood(models.Model):

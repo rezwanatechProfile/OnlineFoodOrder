@@ -19,7 +19,6 @@ def detectUser(user):
         redirectUrl = '/admin'
         return redirectUrl
     
-    
 # send email to user to activate their account. After activation they will be able to log in
 # def send_verification_email(request, user):
 #     from_email = settings.DEFAULT_FROM_EMAIL

@@ -19,26 +19,26 @@ def place_order(request):
     if cart_count <= 0:
         return redirect('marketplace')
 
-    # vendors_ids = []
-    # for i in cart_items:
-    #     if i.fooditem.vendor.id not in vendors_ids:
-    #         vendors_ids.append(i.fooditem.vendor.id)
+    vendors_ids = []
+    for i in cart_items:
+        if i.fooditem.vendor.id not in vendors_ids:
+            vendors_ids.append(i.fooditem.vendor.id)
     
     # # {"vendor_id":{"subtotal":{"tax_type": {"tax_percentage": "tax_amount"}}}}
     # get_tax = Tax.objects.filter(is_active=True)
-    # subtotal = 0
-    # total_data = {}
-    # k = {}
-    # for i in cart_items:
-    #     fooditem = FoodItem.objects.get(pk=i.fooditem.id, vendor_id__in=vendors_ids)
-    #     v_id = fooditem.vendor.id
-    #     if v_id in k:
-    #         subtotal = k[v_id]
-    #         subtotal += (fooditem.price * i.quantity)
-    #         k[v_id] = subtotal
-    #     else:
-    #         subtotal = (fooditem.price * i.quantity)
-    #         k[v_id] = subtotal
+    subtotal = 0
+    total_data = {}
+    k = {}
+    for i in cart_items:
+        fooditem = FoodItem.objects.get(pk=i.fooditem.id, vendor_id__in=vendors_ids)
+        v_id = fooditem.vendor.id
+        if v_id in k:
+            subtotal = k[v_id]
+            subtotal += (fooditem.price * i.quantity)
+            k[v_id] = subtotal
+        else:
+            subtotal = (fooditem.price * i.quantity)
+            k[v_id] = subtotal
     
     #     # Calculate the tax_data
     #     tax_dict = {}
@@ -82,7 +82,7 @@ def place_order(request):
             order.payment_method = request.POST['payment_method']
             order.save() # order id/ pk is generated
             order.order_number = generate_order_number(order.id)
-            # order.vendors.add(*vendors_ids)
+            order.vendors.add(*vendors_ids)
             order.save()
 
             context = {
@@ -137,16 +137,17 @@ def payments(request):
             ordered_food.price = item.fooditem.price
             ordered_food.amount = item.fooditem.price * item.quantity # total amount
             ordered_food.save()
+             # CLEAR THE CART IF THE PAYMENT IS SUCCESS
             cart_items.delete() 
 
     #     # SEND ORDER CONFIRMATION EMAIL TO THE CUSTOMER
     #     mail_subject = 'Thank you for ordering with us.'
     #     mail_template = 'orders/order_confirmation_email.html'
 
-    #     ordered_food = OrderedFood.objects.filter(order=order)
-    #     customer_subtotal = 0
-    #     for item in ordered_food:
-    #         customer_subtotal += (item.price * item.quantity)
+            # ordered_food = OrderedFood.objects.filter(order=order)
+            # customer_subtotal = 0
+            # for item in ordered_food:
+            #     customer_subtotal += (item.price * item.quantity)
     #     tax_data = json.loads(order.tax_data)
     #     context = {
     #         'user': request.user,
@@ -182,7 +183,7 @@ def payments(request):
     #             }
     #             send_notification(mail_subject, mail_template, context)
 
-    #     # CLEAR THE CART IF THE PAYMENT IS SUCCESS
+    #    
                   
 
     #     # RETURN BACK TO AJAX WITH THE STATUS SUCCESS OR FAILURE
@@ -212,8 +213,8 @@ def order_complete(request):
             'order': order,
             'ordered_food': ordered_food,
             'subtotal': subtotal,
-           
         }
+
         return render(request, 'orders/order_complete.html', context)
     except:
         return redirect('home')

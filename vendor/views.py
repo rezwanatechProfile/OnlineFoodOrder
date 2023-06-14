@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from accounts.models import UserProfile
 from menu.forms import CategoryForm, FoodItemForm
+from orders.models import Order, OrderedFood
 from vendor.models import Vendor
 
 from .forms import VendorForm
@@ -12,8 +13,6 @@ from menu.models import Category, FoodItem
 from django.template.defaultfilters import slugify
 # from rest_framework import generics, permissions
 # from . import serializers
-
-
 
 
 # get_vendor function to use it in all functions. To not repeat
@@ -226,3 +225,31 @@ def delete_food(request, pk=None):
     food.delete()
     messages.success(request, "Food Item has been deleted Successfully")
     return redirect('menu_builder')
+
+
+
+def order_detail(request, order_number):
+    try:
+        order = Order.objects.get(order_number=order_number, is_ordered=True)
+        ordered_food = OrderedFood.objects.filter(order=order, fooditem__vendor=get_vendor(request))
+
+        context = {
+            'order': order,
+            'ordered_food': ordered_food,
+            # 'subtotal': order.get_total_by_vendor()['subtotal'],
+            # 'grand_total': order.get_total_by_vendor()['grand_total'],
+        }
+    except:
+        return redirect('vendor')
+    return render(request, 'vendor/order_detail.html', context)
+    
+
+def my_orders(request):
+    vendor = Vendor.objects.get(user=request.user)
+    orders = Order.objects.filter(vendors__in=[vendor.id], is_ordered=True).order_by('created_at')
+
+    context = {
+        'orders': orders,
+    }
+    return render(request, 'vendor/my_orders.html', context)
+    

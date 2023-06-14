@@ -49,7 +49,7 @@ class UserManager(BaseUserManager):
 # create a superuser
 # AbstractBaseUser: by extending or inheriting this AbstractBaseUser we get full controll of editing custom user model. 
 # including the authetications functionality of Django.
-class User(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser):
     VENDOR = 1
     CUSTOMER = 2
 
