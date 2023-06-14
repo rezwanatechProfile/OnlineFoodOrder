@@ -2,6 +2,8 @@ import json
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 
+from orders.models import Order
+
 # from .serailizers import UserSerializer
 from .utils import detectUser
 from vendor.forms import VendorForm
@@ -271,7 +273,14 @@ def myAccount(request):
 @login_required(login_url='login')
 @user_passes_test(check_role_customer)
 def custDashboard(request):
-    return render(request, 'accounts/custDashboard.html')
+    # to send the order information into the customer order page
+    orders = Order.objects.filter(user=request.user, is_ordered=True)[:5]
+    context = {
+        'orders': orders,
+        'orders_count': orders.count()
+
+    }
+    return render(request, 'accounts/custDashboard.html', context)
 
 
 # vendorDashboard should run only when the user is logged in. for that we need to use login decorator. 

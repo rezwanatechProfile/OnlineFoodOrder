@@ -169,6 +169,7 @@ def delete_cart(request, cart_id):
         
 
 
+# Search Functionality
 def search(request):
 
     address = request.GET['address']
@@ -179,7 +180,7 @@ def search(request):
 
     # get vendor ids that has the food item the user is looking for. (need the vendor id)
     fetch_vendors_by_fooditems = FoodItem.objects.filter(food_title__icontains=keyword, is_available=True).values_list('vendor', flat=True)
-# search for the vendor with their name OR food item name
+    # search for the vendor with their name OR food item name
     vendors = Vendor.objects.filter(Q(id__in=fetch_vendors_by_fooditems) | Q(vendor_name__icontains=keyword, is_approved=True, user__is_active=True))
     if latitude and longitude and radius:
       pnt = GEOSGeometry('POINT(%s %s)' % (longitude, latitude))
@@ -197,6 +198,8 @@ def search(request):
     return render(request, 'marketplace/listings.html', context)
 
 
+
+# Checkout Functionality
 @login_required(login_url='login')
 def checkout(request):
     cart_items = Cart.objects.filter(user=request.user).order_by('created_at')
