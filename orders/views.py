@@ -85,19 +85,6 @@ def place_order(request):
             # order.vendors.add(*vendors_ids)
             order.save()
 
-            # # RazorPay Payment
-            # DATA = {
-            #     "amount": float(order.total) * 100,
-            #     "currency": "INR",
-            #     "receipt": "receipt #"+order.order_number,
-            #     "notes": {
-            #         "key1": "value3",
-            #         "key2": "value2"
-            #     }
-            # }
-            # rzp_order = client.order.create(data=DATA)
-            # rzp_order_id = rzp_order['id']
-
             context = {
                 'order': order,
                 'cart_items': cart_items,
@@ -150,6 +137,7 @@ def payments(request):
             ordered_food.price = item.fooditem.price
             ordered_food.amount = item.fooditem.price * item.quantity # total amount
             ordered_food.save()
+            cart_items.delete() 
 
     #     # SEND ORDER CONFIRMATION EMAIL TO THE CUSTOMER
     #     mail_subject = 'Thank you for ordering with us.'
@@ -195,12 +183,37 @@ def payments(request):
     #             send_notification(mail_subject, mail_template, context)
 
     #     # CLEAR THE CART IF THE PAYMENT IS SUCCESS
-    #     # cart_items.delete() 
+                  
 
     #     # RETURN BACK TO AJAX WITH THE STATUS SUCCESS OR FAILURE
-    #     response = {
-    #         'order_number': order_number,
-    #         'transaction_id': transaction_id,
-    #     }
-    #     return JsonResponse(response)
+          response = {
+            'order_number': order_number,
+            'transaction_id': transaction_id,
+        }
+          return JsonResponse(response)
     return HttpResponse('Payments view')
+
+
+def order_complete(request):
+    order_number = request.GET.get('order_no')
+    transaction_id = request.GET.get('trans_id')
+
+    try:
+        order = Order.objects.get(order_number=order_number, payment__transaction_id=transaction_id, is_ordered=True)
+        ordered_food = OrderedFood.objects.filter(order=order)
+
+        subtotal = 0
+        for item in ordered_food:
+            subtotal += (item.price * item.quantity)
+
+        # tax_data = json.loads(order.tax_data)
+        # print(tax_data)
+        context = {
+            'order': order,
+            'ordered_food': ordered_food,
+            'subtotal': subtotal,
+           
+        }
+        return render(request, 'orders/order_complete.html', context)
+    except:
+        return redirect('home')

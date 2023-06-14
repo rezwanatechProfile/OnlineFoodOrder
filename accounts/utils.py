@@ -41,7 +41,7 @@ def detectUser(user):
 #     mail.send()
 
 
-# # send notifications if Vendor is approved or not
+# send notifications if Vendor is approved or not
 # def send_notification(mail_subject, mail_template, context):
 #     from_email = settings.DEFAULT_FROM_EMAIL
 #     message = render_to_string(mail_template, context)

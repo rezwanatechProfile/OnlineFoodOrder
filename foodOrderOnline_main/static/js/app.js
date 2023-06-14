@@ -18,11 +18,9 @@ $(document).ready(function(){
       e.preventDefault()
 
      
-  
       food_id = $(this).attr('data-id');
       url = $(this).attr('data-url');
-
-     
+   
       $.ajax({
           type: 'GET',
           url: url,
@@ -151,7 +149,6 @@ $(document).ready(function(){
     // delete the cart element from the cart page if the qty is 0.
     // Need cart_id to know which cart item deleted
     function removeCartItem(cartItemQty, cart_id){
-      
         if(cartItemQty <= 0){
           // remove the cart item element
           document.getElementById("cart-item-"+cart_id).remove()

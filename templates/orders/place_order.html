@@ -139,11 +139,11 @@
     }
     
 
-    var grand_total = "{{ grand_total }}"
-    var url = "{% url 'payments' %}"
-    var order_number = "{{ order.order_number }}"
+    let grand_total = "{{ grand_total }}"
+    let url = "{% url 'payments' %}"
+    let order_number = "{{ order.order_number }}"
     const csrftoken = getCookie('csrftoken');
-    var order_complete = "#"
+    let order_complete = "{% url 'order_complete' %}"
     console.log('csrftoken===>', csrftoken) // to see the token
     
     // Render the PayPal button into #paypal-button-container

@@ -127,6 +127,14 @@
                         </span>
                       </li>
 
+                      <li style="list-style-type: none;">
+                        Tax
+                        <span class="price float-right">
+                            <span class="currency">$</span>
+                            <span id="tax">{{ tax }}</span>
+                        </span>
+                      </li>
+
                       <!-- {% for key, value in tax_dict.items %}
                                                 {% for i, j in value.items %}
                                                     <li style="list-style-type: none;">
@@ -186,7 +194,7 @@
 <script>
     function payMethodConfirm(){
 
-        var payMethod = $("input[name='payment_method']:checked").val()4
+        var payMethod = $("input[name='payment_method']:checked").val()
         if(!payMethod){
             $('#payment-method-error').html("Select Payment Method!");
             return false;
