@@ -1,3 +1,4 @@
+from decimal import Decimal
 import json
 from django.db import models
 from accounts.models import User
@@ -59,6 +60,45 @@ class Order(models.Model):
 
     def __str__(self):
         return self.order_number
+    
+    # to get the total from each vendor
+    def get_total_by_vendor(self):
+        vendor = Vendor.objects.get(user=request_object.user)
+        subtotal = 0
+        tax = 0
+ 
+        if self.total_data:
+            print("self data I am", self.total_data)
+            total_data = json.loads(self.total_data)
+            print(total_data, "i am total")
+            data = total_data.get(str(vendor.id), {})
+            print(">>>>>",data)
+            data = {str(vendor.id): data[0]} if data else {}
+            print(data)
+
+            if isinstance(data, dict):
+                for key, val in data.items():
+                    subtotal += float(val)
+                    val = val.replace("'", '"')
+                    val = json.loads(val)
+                    print(subtotal)
+
+            # if isinstance(data, list):
+            # data = {str(index): value for index, value in enumerate(data)}
+                
+        else:
+            print("Invalid data structure in total_data")
+            return ValueError("Invalid data structure in total_data")
+    
+        grand_total = float(subtotal) + tax
+        context = {
+        'subtotal': subtotal,
+        'grand_total': grand_total,
+        }
+
+        return context
+
+    
     
 
     
