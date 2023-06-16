@@ -26,7 +26,9 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ['45.79.177.90', '127.0.0.1', 'yumcart.shop', 'www.yumcart.shop']
+# ALLOWED_HOSTS = ['45.79.177.90', '127.0.0.1', 'yumcart.shop', 'www.yumcart.shop']
+
+ALLOWED_HOSTS = []
 
 
 # Application definition
