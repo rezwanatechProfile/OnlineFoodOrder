@@ -6,7 +6,7 @@
 <!-- Main Section Start -->
 <div class="main-section">
     <div class="page-section nopadding cs-nomargin" style="margin-top: 0px;padding-top: 60px;padding-bottom: 10px;margin-bottom: 0px;">
-        <div class="container">
+        <div class="listing-container">
           <div class="listing-sorting-holder">
             <div class="margin-bottom-20">
                     <h2>{{ vendor_count }} Restaurant's found</h2>
@@ -14,7 +14,7 @@
         </div>
         
 
-                    <div class="flex-div">                
+                    <div class="flex-div-listing">                
                             
                             <div class="listing simple">
                                 <ul>
@@ -67,10 +67,12 @@
                      
                         <div class="section-sidebar">
                             <div class="message-box" style="background-color: #fa9918;">
-                                <strong>I'm not Listed!</strong><span>is your restaurant or
-                                    business not
-                                    listed on over site</span>
-                                <a href="{% url 'registerVendor' %}" class="request-btn">Add Your business!</a>
+                                <strong>I'm not Listed!</strong><p>Is your restaurant or
+                                  business not
+                                  listed on our site?</p>
+                                    <p class="margin-top-30"><a class="get-start-btn" href="{% url 'registerVendor' %}">
+                                      Add Your business!</a><p>
+                                <!-- <a href="{% url 'registerVendor' %}" class="request-btn"></a> -->
                             </div>
                         </div>
                     </div>

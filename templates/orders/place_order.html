@@ -6,16 +6,17 @@
 <!-- Main Section Start -->
 <div class="main-section pt-5">
     <div class="page-section">
-        <div class="container">
+        <div class="order-container">
             <div class="row">
                 
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                     <div class="tabs-holder horizontal">
-                        <ul class="stickynav-tabs nav nav-tabs">
+                        
+                        <div class="tab-content-3">
+                          <ul class="stickynav-tabs nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#home"><i class="fa fa-shopping-cart text-danger"></i>Review Your Billing Address</a></li>
                             
                         </ul>
-                        <div class="tab-content">
                             <div id="home" class="tab-pane in active">
                                 <div class="menu-itam-holder">
                                     
@@ -30,7 +31,7 @@
                                             <div><b>Email: </b>{{ order.email }}</div>
                                             <div><b>Payment: </b>{{ order.payment_method }}</div>
                                             <br>
-                                            <div><a href="{% url 'checkout' %}" class="btn btn-outline-danger">Edit</a></div>
+                                            <div class=""><a href="{% url 'checkout' %}" class="btn btn-danger">Edit</a></div>
                                             <br>
 
                                         </div>
@@ -47,11 +48,12 @@
                 <!-- Your order section -->
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                     <div class="tabs-holder horizontal">
-                        <ul class="stickynav-tabs nav nav-tabs">
+         
+                        <div class="tab-content-3">
+                          <ul class="stickynav-tabs nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#home"><i class="icon- icon-room_service"></i>Your Order</a></li>
                             
                         </ul>
-                        <div class="tab-content">
                             <div id="home" class="tab-pane in active">
                                 <div class="menu-itam-holder">
                                     
@@ -79,17 +81,13 @@
                                                 </span>
                                             </li>
 
-                                            <!-- {% for key, value in tax_dict.items %}
-                                                {% for i, j in value.items %}
-                                                    <li style="list-style-type: none;">
-                                                        {{ key }} <small>({{ i }}%)</small>
-                                                        <span class="price float-right">
-                                                            <span class="currency">$</span>
-                                                            <span id="tax-{{ key }}">{{ j }}</span>
-                                                        </span>
-                                                    </li>
-                                                {% endfor %}
-                                            {% endfor %} -->
+                                            <li style="list-style-type: none;">
+                                              Tax
+                                              <span class="price float-right">
+                                                  <span class="currency">$</span>
+                                                  <span id="subtotal">{{ tax }}</span>
+                                              </span>
+                                          </li>
 
 
                                             <li style="list-style-type: none; font-weight: 600;">
