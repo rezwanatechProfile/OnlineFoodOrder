@@ -8,8 +8,8 @@ from orders.models import Order
 from .utils import detectUser
 from vendor.forms import VendorForm
 from .forms import UserForm
-from .models import User
-from .signals import UserProfile
+from .models import User, UserProfile
+# from .signals import UserProfile
 from django.contrib import messages, auth
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required, user_passes_test
