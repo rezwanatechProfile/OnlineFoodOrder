@@ -15,7 +15,7 @@
           <!-- Load the sidebar here -->
           {% include 'includes/v_sidebar.html' %}
         </div>
-        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+        <div class="col-9">
           <div class="user-dashboard loader-holder">
             <div class="user-holder">
               <h5 class="text-uppercase">Create Menu OF YOUR Restaurant</h5>
@@ -52,8 +52,8 @@
               </table>
               {% else %}
               <h5 class="text-center">No Categories Found</h5>
-              <div class="text-center">
-                <a href="{% url 'add_category' %}" class="btn btn-info m-1"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp; Add Category</a></div>
+              <div class="text-center margin-top-30">
+                <a href="{% url 'add_category' %}" class="btn add-btn"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp; Add Category</a></div>
              </div>
              {% endif %}
           </div>
