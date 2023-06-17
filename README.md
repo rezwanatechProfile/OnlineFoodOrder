@@ -2,6 +2,7 @@
 
 #A link to hosted app: 
 https://yumcart.shop/
+
 #A paragraph-long description (elevator pitch) of your project.
 YumCart is a food online marketplace app from where people will be able to order
 A list of the technologies used.
