@@ -37,6 +37,6 @@ JavaScript
 ![drawSQL-yumcart](https://github.com/rezwanatechProfile/OnlineFoodOrder/assets/120229816/dcfd34a7-552a-417f-ac53-09335091f663)
 
 # Descriptions of any unsolved problems or future features.
- Email approval after registration and email confirmation after order
+> Email approval after registration and email confirmation after order
 =======
 
