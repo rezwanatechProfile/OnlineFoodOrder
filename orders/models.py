@@ -99,10 +99,7 @@ class Order(models.Model):
         return context
 
     
-    
-
-    
-
+  
 class OrderedFood(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, blank=True, null=True)

@@ -11,18 +11,18 @@
   <div class="page-section account-header buyer-logged-in">
     <div class="container">
       <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+        <div class="col-3">
           <!-- Load the sidebar here -->
           {% include 'includes/v_sidebar.html' %}
         </div>
-        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+        <div class="col-9">
           <div class="user-dashboard loader-holder">
             <div class="user-holder">
               <!-- <h5 class="text-uppercase">Create Menu OF YOUR Restaurant</h5> -->
              
               <h5>Category: <span class="text-uppercase text-success">{{category}}</span></h5>
               <hr>
-              <button onclick="history.back()" class="btn btn-success"><i class="fa fa-angle-left" aria-hidden="true"></i> &nbsp; Back</button>
+              <button onclick="history.back()" class="btn add-btn"><i class="fa fa-angle-left" aria-hidden="true"></i> &nbsp; Back</button>
               <br>
               <br>
               {% if fooditems %}

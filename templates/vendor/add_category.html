@@ -11,17 +11,17 @@
   <div class="page-section account-header buyer-logged-in">
     <div class="container">
       <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+        <div class="sidebar">
           <!-- Load the sidebar here -->
           {% include 'includes/v_sidebar.html' %}
         </div>
-        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+        <div class="col-9">
           <div class="user-dashboard loader-holder">
             <div class="user-holder">
  
               <h5>Add New Categories</h5>
               <hr>
-              <button onclick="history.back()" class="btn btn-success"><i class="fa fa-angle-left" aria-hidden="true"></i> &nbsp; Back</button>
+              <button onclick="history.back()" class="btn add-btn"><i class="fa fa-angle-left" aria-hidden="true"></i> &nbsp; Back</button>
               <br>
               <br>
               <!-- Render form -->
@@ -29,14 +29,14 @@
                 {% csrf_token %}
                 <div class="form-fields-set">
                   <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="col-12">
                       <div class="field-holder">
                         <label>Category Name *</label>
                         {{form.category_name}}
                       </div>
                     </div>
 
-                    <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="col-12">
                       <div class="field-holder">
                         <label>Description *</label>
                         {{form.description}}
@@ -53,7 +53,7 @@
                     {% endif %}
                 {% endfor %}
 
-                <button type="submit" class="btn btn-info">Create</button>
+                <button type="submit" class="btn add-btn">Create</button>
               </form>
             </div>
           </div>

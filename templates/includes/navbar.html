@@ -7,11 +7,11 @@
     <nav>
       <ul class="menu">
         <li class="logo"> <a href="{% url 'home' %}" class="logo">
-          <img src="{% static '' %}" alt="YumCart" width="100">
+          <img src="{% static 'logo/10.png' %}" alt="YumCart">
         </a>
         </li>
         <li class="nav-link"><a href="{% url 'cart' %}">
-            <i class="fa fa-shopping-cart text-danger" style="font-size: 25px;"></i>
+            <i class="fa fa-shopping-cart" style="font-size: 25px;"></i>
             <span class="badge badge-warning" id="cart_counter"
               style="border-radius: 50px; position: relative; bottom:10px; left: -5px;">{{ cart_count }}</span>
           </a></li>

@@ -15,7 +15,7 @@
               <p class="text-center">Register your restaurant with YumCart marketplace.</p>
               <hr>
               <div id="restaurant-sets-holder">
-                <form action="{% url 'registerVendor' %}" class="userLoginForm form-fields-set foodbakery-dev-restaurant-form"
+                <form action="{% url 'registerVendor' %}" class="userRegForm form-fields-set foodbakery-dev-restaurant-form"
                   method="post" enctype="multipart/form-data">
                   {% csrf_token %}
                   <ul class="register-add-restaurant-tab-container restaurant-information-tab-container">
@@ -25,12 +25,11 @@
                           <div class="">
                             <ul>
                               <li>
-                                <div class="">
+                                <div class="flex-div">
                                   <div class="field-holder">
                                     <label>First name</label>{{form.first_name}}
                                   </div>
-                                </div>
-                                <div class="">
+ 
                                   <div class="field-holder">
                                     <label>Last name</label>{{form.last_name}}
                                   </div>
@@ -60,13 +59,12 @@
                               </li>
 
                               <li>
-                                <div class="">
+                                <div class="flex-div">
                                   <div class="field-holder">
                                     <label>Password</label>
                                     {{form.password}}
                                   </div>
-                                </div>
-                                <div class="">
+             
                                   <div class="field-holder">
                                     <label>Confirm Password</label>
                                     {{form.confirm_password}}

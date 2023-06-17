@@ -32,12 +32,16 @@ body {
   align-items: center;
 }
 
+.container-flex {
+  display: flex;
+}
+
 /* home section home-container */
 
 .home-container {
   display: flex;
   justify-content: flex-end;
-  max-width: 90%;
+  max-width: 70%;
   margin: 0 auto;
 
 }
@@ -87,6 +91,22 @@ form {
   margin: 5px;
 }
 
+.userRegForm {
+  width: 100%;
+}
+
+.flex-div{
+  display: flex;
+}
+
+.flex-div .field-holder {
+  flex: 1;
+}
+
+.flex-div .field-holder:not(:last-child) {
+  margin-right: 20px;
+}
+
 .foodbakery-locations-fields-group {
   display: flex;
   /* justify-content: flex-end; */
@@ -127,10 +147,11 @@ form {
   border-radius: 5px;
 }
 /* ....................... */
+
 .page-section {
   margin-top: 0px;
   padding-top: 60px;
-  padding-bottom: 50px;
+  padding-bottom: 130px;
   margin-bottom: 0px;
   background: #ffffff;
 }
@@ -151,6 +172,11 @@ form {
   background-color: #d4c8c8;
   opacity: 0.8;
   margin-left: 20px;
+}
+
+
+.custForm {
+  width: 100%;
 }
 
 .cust-container {
@@ -259,18 +285,23 @@ span {
 
 
 /* All buttons */
-.viewmenu-btn {
-
+.viewmenu-btn,
+.add-btn {
   padding: 5px 25px;
   margin: 0 auto;
   background-color: #412005;
   color: #ffffff;
   border: 2px solid #000000;
   border-radius: 5px;
-
 }
 
-.viewmenu-btn:hover {
+.add-btn:not(:last-child){
+  margin-right: 10px;
+  text-decoration: none;
+}
+
+.viewmenu-btn:hover,
+.add-btn:hover {
   background-color: #e5ded9;
   color: #412005;
 }
@@ -306,17 +337,22 @@ span {
 
 nav {
   background-color: rgba(228, 98, 50, 0.833);
+  padding: 0 20px;
 }
 
 ul {
   list-style-type: none;
 }
 
-.nav-link, a {
+a {
+  color:rgb(55, 33, 14);
+}
+
+.nav-link, .nav-link a {
   font-weight: 500;
   text-decoration: none;
   font-size: 16px;
-  color: #412005;
+  color: #f9eddb;
 }
 
 .badge-warning {
@@ -328,7 +364,7 @@ ul {
 
 
 a:hover {
-  text-decoration: underline;
+  color: rgb(64, 42, 22);
 }
 
 .logo a:hover {
@@ -389,7 +425,7 @@ menu li a {
   cursor:pointer;
 }
 .bars {
-  background: #999;
+  background: #f9eddb;
   display: inline-block;
   height: 2px;
   position: relative;
@@ -399,7 +435,7 @@ menu li a {
 
 .bars:before,
 .bars:after {
-  background: #999;
+  background: #f9eddb;
   content: '';
   display: block;
   height: 100%;
@@ -437,34 +473,35 @@ menu li a {
   }
   .button a {
       padding: 7.5px 15px;
-      border: 1px rgb(55, 33, 14) solid;
-      background: rgb(55, 33, 14); 
+      border: 1px #f9eddb solid;
+      background: #f9eddb;
       border-radius: 5px;
-      color: #fff;  
+      color: rgb(55, 33, 14);
   }
 
   .button.secondary a {
       background: transparent; 
-      border: 1px rgb(55, 33, 14) solid; 
-      color: rgb(55, 33, 14)
+      border: 1px #f9eddb solid; 
+      color: #f9eddb;
       
   }
 
   .button a:hover {
       text-decoration: none;
-      background: transparent;
+      background: rgb(55, 33, 14);
       transition:all .25s;
       
   }
 
   .button:not(.secondary) a:hover {
       border-color: rgb(55, 33, 14);
-      color:rgb(55, 33, 14)
+      color:#f9eddb;
   }
 
   .button.secondary a:hover {
-      color: #fff;
+      color: #f9eddb;
       background-color: rgb(55, 33, 14);
+      border-color: rgb(55, 33, 14);
   } 
 }
 
@@ -507,17 +544,34 @@ menu li a {
 }
 
 /* Style the form */
+
+.alert {
+  background-color: rgba(228, 98, 50, 0.833);
+  padding: 40px;
+}
+
+
 .user-dashboard {
-  background-color: rgb(250, 242, 196);
+  border: 2px solid #412005;
+  border-radius: 5px;
+  padding: 20px 50px;
+  margin: 0 auto;
+}
+
+.user-cust-dashboard,
+.user-ven-dashboard {
   border: 2px solid #412005;
   border-radius: 5px;
   padding: 20px;
   margin: 0 auto;
 }
 
-.user-holder {
+
+
+
+/* .user-holder {
   margin-bottom: 20px;
-}
+} */
 
 h4 {
   font-size: 24px;
@@ -550,7 +604,10 @@ label {
 input[type="email"],
 input[type="text"],
 input[type="password"],
-input[type="file" i] {
+input[type="file" i],
+textarea,
+select,
+input[type="number" i] {
   width: 100%;
   padding: 8px;
   font-size: 12px;
@@ -566,12 +623,11 @@ input#file-upload-button {
 
 .userForm {
   width: 60%;
-  margin: 0 auto;
-
 }
 
 .userLoginForm {
   margin: 0 auto;
+  width: 100%;
 }
 
 .link-btn-holder {
@@ -647,6 +703,9 @@ input[type="submit"]:hover {
   padding: 20px;
 
 }
+
+
+
 .stickynav-tabs li {
   list-style: none;
 }
@@ -909,8 +968,6 @@ input[type="submit"]:hover {
 } 
 
 
-
-
 .flex-m-container {
   display: flex;
     flex-direction: row;
@@ -1040,8 +1097,7 @@ input[type="submit"]:hover {
 
 .col-lg-8,
 .col-md-8,
-.col-sm-8,
-.col-xs-12 {
+.col-sm-8 {
   flex: 1;
   flex-basis: 0;
   max-width: 66.66667%;
@@ -1109,9 +1165,9 @@ input[type="submit"]:hover {
   background-color: #f8f9fa;
 }
 
-.billing-address {
+/* .billing-address {
   font-weight: bold;
-}
+} */
 
 .btn-outline-danger {
   color: #dc3545;
@@ -1151,4 +1207,463 @@ input[type="submit"]:hover {
 
 .currency {
   font-weight: bold;
+}
+
+/* Account setup */
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.sidebar {
+  flex: 0 0 20%;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  margin-right: 30px; 
+  padding-left: 25px; 
+}
+
+.content {
+  flex: 0 0 75%;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.user-holder-1 {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.text-uppercase {
+  margin-top: 0;
+}
+
+.form-fields-set {
+  margin-top: 20px;
+}
+
+.field-holder {
+  margin-bottom: 20px;
+}
+
+.payment-holder {
+  text-align: left;
+}
+
+/* .input-button-loader input[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.input-button-loader input[type="submit"]:hover {
+  background-color: #0056b3;
+} */
+
+.label {
+  font-weight: bold;
+}
+
+.thumbnail {
+  max-width: 100%;
+  height: auto;
+}
+
+.small-text {
+  font-size: 12px;
+  color: #888;
+}
+
+.text-danger {
+  color: #dc3545;
+}
+
+.profile-picture,
+.cover-photo {
+  display: flex;
+}
+
+/* .img-holder {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 10px;
+} */
+
+.text-holder {
+  margin-bottom: 10px;
+}
+
+.info-fields {
+  flex: 0 0 80%;
+}
+
+.user-nav-list li {
+
+  margin-bottom: 10px;
+
+}
+
+.user-nav-list li a {
+  color:#412005;
+  font-size: 18px;
+}
+
+@media (max-width: 992px) {
+  .flex-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    flex: 0 0 30%;
+  }
+  .content {
+    flex: 0 0 100%;
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+}
+
+
+/* Footer */
+
+.footer {
+  background-color: rgba(228, 98, 50, 0.833);
+  padding: 50px 20px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30vh;
+  /* display: flex;
+  justify-content: space-between; */
+}
+
+.footer-widget {
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+/* .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+} */
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col {
+  flex: 0 0 100%;
+}
+
+.copy-right {
+  text-align: center;
+}
+
+.copy-right p {
+  margin-bottom: 0;
+}
+
+.copy-right a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.copy-right a:hover {
+  text-decoration: underline;
+}
+
+
+/* Dashboard Setup */
+
+.user-dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.user-holder {
+  width: 100%;
+}
+
+.text-uppercase {
+  margin-top: 0;
+}
+
+.overview-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* .overview-card {
+  flex: 0 0 48%;
+} */
+
+.recent-orders {
+  width: 100%;
+}
+
+.user-orders-list {
+  width: 100%;
+}
+
+.responsive-table {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.card-header {
+  padding: 10px;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.card-title {
+  margin-bottom: 0;
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-danger:hover {
+  color: #fff;
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.card {
+  flex-basis: calc(33.33% - 10px);
+  max-width: calc(33.33% - 10px);
+  margin-bottom: 20px;
+}
+
+.order-list {
+  margin-top: 20px;
+}
+
+.responsive-table {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+}
+
+
+/* vprofile setup */
+
+/* Reset default margin and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Apply flexbox to the main container */
+/* .main-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+} */
+
+.vprofile .user-dashboard {
+  flex: 0 0 75%; /* Adjust the width as needed */
+  padding-left: 20px;
+}
+
+.user-holder {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+}
+
+.restaurant-info {
+  margin-bottom: 20px;
+}
+
+.vprofile .img-holder {
+  width: 100px; /* Adjust the width as needed */ /* Adjust the height as needed */
+  overflow: hidden;
+}
+
+.thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.text-holder {
+  margin-top: 10px;
+}
+
+.upload-gallery {
+  margin-top: 5px;
+}
+
+.field-holder {
+  margin-bottom: 10px;
+}
+
+.payment-holder {
+  margin-top: 20px;
+}
+
+
+/* Media query for responsive layout */
+@media (max-width: 768px) {
+  .flex-container {
+    flex-direction: column;
+  }
+  .container-flex {
+    flex-wrap: wrap;
+  }
+
+  .sidebar {
+    padding-left: 50px;
+  }
+  
+  .sidebar, .user-dashboard {
+    flex: 1 0 auto;
+  }
+  
+  /* .sidebar {
+    order: 2;
+  }
+   */
+  .user-dashboard {
+    order: 1;
+  }
+
+  .order-container{
+    flex-direction: column;
+  }
+}
+
+
+
+
+/* Add food Category */
+
+/* Apply flexbox to the main container */
+
+
+/* .row {
+  display: flex;
+  flex-wrap: wrap;
+} */
+
+.col-3,
+.col-9,
+.col-12 {
+  flex-basis: 100%;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+/* Adjust column widths for different screen sizes */
+@media (min-width: 992px) {
+  .col-3,
+  .col-9 {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+  }
+
+  .col-3 {
+    max-width: 25%;
+  }
+
+  .col-9 {
+    max-width: 75%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .col-3,
+  .col-9 {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+  }
+
+  .col-3 {
+    max-width: 25%;
+  }
+
+  .col-9 {
+    max-width: 75%;
+  }
+
+
+}
+
+/* Apply flexbox to the user dashboard section */
+/* .user-dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+
+/* Apply flexbox to the user holder section */
+/* .user-holder {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+} */
+
+/* .field-holder {
+  margin-bottom: 20px;
+} */
+
+/* Media query for responsive layout */
+@media (max-width: 767px) {
+  .col-3,
+  .col-9,
+  .col-12{
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+}
+
+.name-link {
+  color:rgb(55, 33, 14);
 }
