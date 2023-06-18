@@ -3,7 +3,6 @@
 # A link to hosted app: 
 https://yumcart.shop/
 
-<<<<<<< HEAD
 # A paragraph-long description (elevator pitch) of your project.
 YumCart is a food online marketplace app from where restaurant owners will be register their restauranrs for the people to order food from their home and any other places nearby. This app also provides the multiple orders from multiple restaurants and location based search option to search the restaurants nearby.
 
@@ -30,13 +29,14 @@ JavaScript
 > User will be able to update their profile
 
 # Link to your wireframes – sketches of major views / interfaces in your application.
+![Screen Shot 2023-05-18 at 11 08 32 PM](https://github.com/rezwanatechProfile/OnlineFoodOrder/assets/120229816/d6e62f90-6d68-4cde-88c6-7025a5828fd5)
 
 
 # Link to your entity relationship diagrams – plan out your data relationships before coding.
 
+![drawSQL-yumcart](https://github.com/rezwanatechProfile/OnlineFoodOrder/assets/120229816/dcfd34a7-552a-417f-ac53-09335091f663)
 
 # Descriptions of any unsolved problems or future features.
-
-Email approval after registration and email confirmation after order
+> Email approval after registration and email confirmation after order
 =======
 
