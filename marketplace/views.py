@@ -21,8 +21,9 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-# Create your views here.
 
+
+# Get Vendors page
 def marketplace(request):
     vendors = Vendor.objects.filter(is_approved=True, user__is_active=True)
     vendor_count = vendors.count()
@@ -33,6 +34,7 @@ def marketplace(request):
     return render(request, 'marketplace/listings.html', context)
 
 
+# Show page
 def vendor_detail(request, vendor_slug):
     vendor = get_object_or_404(Vendor, vendor_slug=vendor_slug)
 # prefetch_related look for the data in reverse. we are accessing the food items in category model using related name.

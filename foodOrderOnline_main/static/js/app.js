@@ -153,8 +153,6 @@ $(document).ready(function(){
           // remove the cart item element
           document.getElementById("cart-item-"+cart_id).remove()
       }
-      
-  
 }
 
 
